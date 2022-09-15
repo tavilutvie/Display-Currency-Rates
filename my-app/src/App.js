@@ -9,7 +9,7 @@ function App() {
   // const app_key = process.env.REACT_APP_API_KEY;
   // axios.get(`https://api.currencyfreaks.com/latest?apikey=5695d778bd9945928189edabda338cac`).then((res) => res.json).catch((err) => console.log(err))
 
-  const url = `https://api.currencyfreaks.com/latest?apikey=5695d778bd9945928189edabda338cac&symbols=CAD, IDR, JPY, CHF, EUR, GBP`;
+  const url = `https://api.currencyfreaks.com/latest?apikey=5695d778bd9945928189edabda338cac&symbols=CAD,IDR,JPY,CHF,EUR,GBP`;
   useEffect(() => {
     let fetchPost = async () => {
       const response = await fetch(url);
@@ -23,25 +23,32 @@ function App() {
 
   // console.log(data);
   console.log(ratePost)
+
+  const fixed = (value) => parseFloat(value.replace(/,/g, '')).toFixed(4)
+  const Shell = (value, rate) => {
+    const res = Number((value) - (rate / 100) * value);
+    return res.toFixed(4)
+  }
+
+  const Buy = (value, rate) => {
+    const res = Number((value) + (rate / 100) * value);
+    return res.toFixed(4)
+  }
+
   return (
     <div style={{padding: '20px'}}>
       <h1>Tavi</h1>
       <h2>{data?.date}</h2>
       <h3>{data?.base}</h3>
+
       {Object.keys(ratePost).map((item) => {
         return <tr key={item}>
           <td>{item}</td>
-          <td>{ratePost[item]}</td>
+          <td>{Buy(ratePost, 5)}</td>
+          <td>{fixed(ratePost[item])}</td>
+          <td>{Shell(ratePost, 5)}</td>
         </tr>
       })}
-  
-      {/* {
-        ratePost && ratePost?.map((post, index) => (
-          <div key={index}>
-            <li>{post?.rates}</li>
-          </div>
-        ))
-      } */}
     </div>
   )
 }
