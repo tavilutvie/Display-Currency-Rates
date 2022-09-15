@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import {useState, useEffect } from "react";
 import './App.css';
 
@@ -30,9 +29,9 @@ function App() {
     return res.toFixed(4)
   }
 
-  const Buy = (value, rate) => {
-    const res = Number((value) + (rate / 100) * value);
-    return res.toFixed(4)
+  const Buy = (value) => {
+    const res = Number(value)
+    return (res + res * 0.05).toFixed(4)
   }
 
   return (
@@ -44,9 +43,9 @@ function App() {
       {Object.keys(ratePost).map((item) => {
         return <tr key={item}>
           <td>{item}</td>
-          <td>{Buy(ratePost, 5)}</td>
+          <td>{Buy(ratePost[item])}</td>
           <td>{fixed(ratePost[item])}</td>
-          <td>{Shell(ratePost, 5)}</td>
+          <td>{Shell(ratePost[item], 5)}</td>
         </tr>
       })}
     </div>
